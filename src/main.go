@@ -1,12 +1,12 @@
 package main
 
 import (
-	"database/sql"
 	"fmt"
-	"github.com/go-sql-driver/mysql"
-	"github.com/jinzhu/gorm"
 	"net/http"
 	"os"
+
+	"github.com/go-sql-driver/mysql"
+	"github.com/jinzhu/gorm"
 
 	//"migrations"
 
@@ -25,27 +25,22 @@ func dbConnect(some int) error {
 	return err
 }
 
-var schema string = "CREATE TABLE `users` (	  	`id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY,		  	`name` varchar(255) NOT NULL		)"
+// var schema string = "CREATE TABLE `users` (	  	`id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY,		  	`name` varchar(255) NOT NULL		)"
 
 func main() {
 
 	dbConfig := mysql.NewConfig()
 	dbConfig.User = "root"
 	dbConfig.Passwd = "secret"
-	dbConfig.Addr = "localhost:3306"
+	dbConfig.Addr = "mysql-container:3306"
 	dbConfig.DBName = "goland"
 	dbConfig.Net = "tcp"
 
-	db, err := sql.Open("mysql", dbConfig.FormatDSN())
+	db, err := gorm.Open("mysql", dbConfig.FormatDSN())
 	if err != nil {
 		panic(err)
 	}
 	defer db.Close()
-
-	//_, errSchema := db.Exec(schema)
-	//if errSchema != nil {
-	//	panic(err)
-	//}
 
 	//db, err := gorm.Open("mysql", "root:secret@tcp(localhost:3306)/goland")
 	//
@@ -65,10 +60,10 @@ func main() {
 		PORT = "3001"
 	}
 
-	//db.AutoMigrate(&Row{})
-	//
-	//// Create
-	//db.Create(&Row{Code: "L1212", Price: 1000})
+	db.AutoMigrate(&Row{})
+
+	// Create
+	db.Create(&Row{Code: "L1212", Price: 1000})
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "test: %s\n", r.URL.Path)
