@@ -3,10 +3,10 @@ package migrations
 import "github.com/jinzhu/gorm"
 import "../models"
 
-// SomeFunc this is for test
-func SomeFunc(db *gorm.DB) string {
+// Migrate this is for test
+func Migrate(db *gorm.DB) {
+	db.AutoMigrate(&models.User{})
+	db.AutoMigrate(&models.Order{})
 
-	db.AutoMigrate(&models.Row{})
-
-	return "Some String"
+	db.Model(&models.Order{}).AddForeignKey("managerID", "users(id)", "CASCADE", "RESTRICT")
 }

@@ -2,6 +2,7 @@ package models
 
 import "github.com/jinzhu/gorm"
 
+// User struct
 type User struct {
 	gorm.Model
 	name     string
@@ -9,8 +10,10 @@ type User struct {
 	password string
 }
 
-type Row struct {
+// Order struct
+type Order struct {
 	gorm.Model
-	Code  string
-	Price uint
+	hash      string
+	price     uint
+	managerID uint
 }

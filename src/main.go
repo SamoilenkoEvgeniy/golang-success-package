@@ -42,15 +42,12 @@ func main() {
 	}
 	defer db.Close()
 
-	migrations.SomeFunc(db)
+	migrations.Migrate(db)
 
 	var PORT string
 	if PORT = os.Getenv("PORT"); PORT == "" {
 		PORT = "3001"
 	}
-
-	db.AutoMigrate(&Row{})
-
 	// Create
 	db.Create(&Row{Code: "L1212", Price: 1000})
 
