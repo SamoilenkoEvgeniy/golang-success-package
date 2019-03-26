@@ -8,7 +8,7 @@ import (
 	"github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 
-	//"migrations"
+	"./migrations"
 
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -42,18 +42,7 @@ func main() {
 	}
 	defer db.Close()
 
-	//db, err := gorm.Open("mysql", "root:secret@tcp(localhost:3306)/goland")
-	//
-	//if err != nil {
-	//	panic(err)
-	//}
-	//
-	//defer db.Close()
-
-	//err := retry.Sleep(3, 10000000000, dbConnect)
-	//if err != nil {
-	//	log.Fatal(err)
-	//}
+	migrations.SomeFunc(db)
 
 	var PORT string
 	if PORT = os.Getenv("PORT"); PORT == "" {
